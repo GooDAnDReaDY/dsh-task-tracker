@@ -1,0 +1,27 @@
+{
+  "name": "dsh-task-tracker",
+  "version": "0.1.0",
+  "description": "Todo-инбокс для Ди: тулы todo_add / todo_list / todo_done против локального task-tracker (todo.goodandready.app, /api/tasks, HTTP Basic). Task-board DSH трекером не является — инциденты/кроны/изучение ведутся здесь.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/schemastery": "^3.18.1",
+    "@deepseek-ai/dsh-tools": "*"
+  }
+}
