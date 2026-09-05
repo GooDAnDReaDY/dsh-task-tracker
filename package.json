@@ -40,6 +40,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GooDAnDReaDY/dsh-task-tracker.git"
+    "url": "git+https://github.com/goodandready-private/dsh-task-tracker.git"
+  },
+  "homepage": "https://github.com/goodandready-private/dsh-task-tracker#readme",
+  "bugs": {
+    "url": "https://github.com/goodandready-private/dsh-task-tracker/issues"
   }
 }
