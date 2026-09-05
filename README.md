@@ -18,3 +18,7 @@ host id dsh-task-tracker с private package name.
 секретом. Пароль не хранится в исходниках, не логируется и не имеет fallback.
 
 Параметр base задаёт URL API, а maxResults не используется этим плагином.
+
+## Changed in v0.1.3
+
+- Fix package exports `./client` for dsh.client settings card (boot compatibility).
