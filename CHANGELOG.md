@@ -5,6 +5,11 @@ All notable changes to `@goodandready-private/dsh-task-tracker` will be document
 ## [0.2.0] - 2026-09-18
 
 ### Added
+- **CI / Gitea Actions**: добавлен `.gitea/workflows/ci.yml` с автоматическим запуском проверки синтаксиса (`node --check`) и набора тестов (`npm test`) на push и PR (#28).
+
+### Changed
+- **Client Diagnostics & Effects Language**: диагностические метки `ctx.effect` в `lib/client.js` переведены на канонический английский язык клиента (`'dsh-task-tracker: locale dictionaries'`, `'settings card'`) в соответствии с `DESIGN.md` (#27).
+
 - **Нижняя полка папок (Bottom Folder Shelf)**: фиксированные плашки папок (`140px`, значок + название с переносом до 2 строк, счетчик задач), перенос строк в 2 ряда при увеличении числа папок (#25).
 - **Смена значка папки**: встроенный поповер с палитрой эмодзи для быстрой персонализации иконок папок (#25).
 - **Drag & Drop задач в папки**: перетаскивание строк задач из списка на любую плашку папки внизу для мгновенного перемещения (#25).

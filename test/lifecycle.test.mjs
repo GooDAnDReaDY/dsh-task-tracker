@@ -75,8 +75,8 @@ test('client lifecycle: registers locale and slot in ctx.effect with cleanups', 
 
   // Check effects registered
   const effectNames = effects.map((e) => e.name);
-  assert.ok(effectNames.includes('dsh-task-tracker: словари'), 'locale effect registered');
-  assert.ok(effectNames.includes('dsh-task-tracker: карточка'), 'card slot effect registered');
+  assert.ok(effectNames.includes('dsh-task-tracker: locale dictionaries'), 'locale effect registered');
+  assert.ok(effectNames.includes('dsh-task-tracker: settings card'), 'card slot effect registered');
   assert.ok(!effectNames.includes('dsh-task-tracker: fallback section'), 'fallback section must not be registered');
 
   // Verify initial registration
