@@ -1,7 +1,7 @@
 {
   "name": "@goodandready-private/dsh-task-tracker",
-  "version": "0.1.4",
-  "description": "Todo-инбокс для Ди: тулы todo_add / todo_list / todo_done против локального task-tracker (todo.goodandready.app, /api/tasks, HTTP Basic). Task-board DSH трекером не является — инциденты/кроны/изучение ведутся здесь.",
+  "version": "0.1.5",
+  "description": "Автономный встроенный Todo-инбокс для Ди: локальное JSON-хранилище tasks.json, тулы todo_add / todo_list / todo_done, REST API webServer и полноэкранный интерфейс TasksScreen.",
   "type": "module",
   "main": "lib/index.js",
   "exports": {

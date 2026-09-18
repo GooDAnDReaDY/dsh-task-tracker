@@ -85,6 +85,9 @@ test('client lifecycle: registers locale and slot in ctx.effect with cleanups', 
   assert.ok(registeredLocales[0].dict.en);
   assert.equal(registeredLocales[0].dict.ru, undefined, 'ru locale must not be bundled');
   assert.ok(injectedSlots.includes('settings.plugin.item'));
+  assert.ok(injectedSlots.includes('conversation.session.header.utilities'));
+  assert.ok(effectNames.includes('dsh-task-tracker: chip'));
+  assert.ok(effectNames.includes('dsh-task-tracker: overlay'));
 
   // Run cleanups (simulate unmount/re-apply)
   for (const eff of effects) {
@@ -94,7 +97,7 @@ test('client lifecycle: registers locale and slot in ctx.effect with cleanups', 
   }
 
   assert.equal(unregisterLocaleCalled, 1, 'locale unregister callback was called on cleanup');
-  assert.equal(unregisterSlotCalled, 1, 'slot unregister callback was called on cleanup');
+  assert.equal(unregisterSlotCalled, 2, 'slot unregister callback was called on cleanup for card and chip');
 });
 
 test('client lifecycle: double apply works cleanly without duplicating uncleaned state', async () => {
@@ -137,7 +140,7 @@ test('client lifecycle: double apply works cleanly without duplicating uncleaned
   const session1 = createMockCtx();
   assert.doesNotThrow(() => mod.apply(session1.ctx));
   assert.equal(activeLocaleRegistrations, 1);
-  assert.equal(activeSlotInjections, 1);
+  assert.equal(activeSlotInjections, 2);
 
   // Reload / second apply: first session disposed, second applied
   session1.dispose();
@@ -147,7 +150,7 @@ test('client lifecycle: double apply works cleanly without duplicating uncleaned
   const session2 = createMockCtx();
   assert.doesNotThrow(() => mod.apply(session2.ctx));
   assert.equal(activeLocaleRegistrations, 1);
-  assert.equal(activeSlotInjections, 1);
+  assert.equal(activeSlotInjections, 2);
 
   session2.dispose();
   assert.equal(activeLocaleRegistrations, 0);
