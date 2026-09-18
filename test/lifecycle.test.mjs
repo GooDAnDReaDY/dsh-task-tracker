@@ -82,7 +82,8 @@ test('client lifecycle: registers locale and slot in ctx.effect with cleanups', 
   // Verify initial registration
   assert.equal(registeredLocales.length, 1);
   assert.equal(registeredLocales[0].ns, 'dsh-task-tracker');
-  assert.ok(registeredLocales[0].dict.en && registeredLocales[0].dict.ru);
+  assert.ok(registeredLocales[0].dict.en);
+  assert.equal(registeredLocales[0].dict.ru, undefined, 'ru locale must not be bundled');
   assert.ok(injectedSlots.includes('settings.plugin.item'));
 
   // Run cleanups (simulate unmount/re-apply)

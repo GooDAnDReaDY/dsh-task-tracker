@@ -22,3 +22,9 @@ host id dsh-task-tracker с private package name.
 ## Changed in v0.1.3
 
 - Fix package exports `./client` for dsh.client settings card (boot compatibility).
+
+## Языковое поведение / Locale behavior
+
+- **Клиентская карточка:** регистрирует только канонический английский словарь (`en`) для пространства `dsh-task-tracker`. Встроенный словарь `ru` не поставляется во избежание коллизии `already has locale "ru"` в веб-профиле DSH.
+- **Русская локализация:** карточка переводится централизованным плагином `dsh-russian-lang` (`48-task-tracker.json`).
+- **Инструменты агента:** описания и параметры инструментов в `lib/index.js` (`todo_add`, `todo_list`, `todo_done`) выполнены на русском языке как целевые системные инструкции для LLM-агента Ди.
