@@ -76,7 +76,8 @@ test('client lifecycle: registers locale and slot in ctx.effect with cleanups', 
   // Check effects registered
   const effectNames = effects.map((e) => e.name);
   assert.ok(effectNames.includes('dsh-task-tracker: locale dictionaries'), 'locale effect registered');
-  assert.ok(effectNames.includes('dsh-task-tracker: settings card'), 'card slot effect registered');
+  assert.ok(effectNames.includes('dsh-task-tracker: settings row seat'), 'row seat effect registered');
+  assert.ok(effectNames.includes('dsh-task-tracker: settings card'), 'legacy card slot effect registered');
   assert.ok(!effectNames.includes('dsh-task-tracker: fallback section'), 'fallback section must not be registered');
 
   // Verify initial registration
@@ -84,6 +85,7 @@ test('client lifecycle: registers locale and slot in ctx.effect with cleanups', 
   assert.equal(registeredLocales[0].ns, 'dsh-task-tracker');
   assert.ok(registeredLocales[0].dict.en);
   assert.equal(registeredLocales[0].dict.ru, undefined, 'ru locale must not be bundled');
+  assert.ok(injectedSlots.includes('plugins.row.config'), 'row seat is injected first');
   assert.ok(injectedSlots.includes('settings.plugin.item'));
   assert.ok(!injectedSlots.includes('settings.section'), 'settings.section must not be injected');
   assert.ok(injectedSlots.includes('conversation.session.header.utilities'));
@@ -98,7 +100,7 @@ test('client lifecycle: registers locale and slot in ctx.effect with cleanups', 
   }
 
   assert.equal(unregisterLocaleCalled, 1, 'locale unregister callback was called on cleanup');
-  assert.equal(unregisterSlotCalled, 2, 'slot unregister callback was called on cleanup for card and chip');
+  assert.equal(unregisterSlotCalled, 3, 'slot unregister callbacks: row seat, legacy card and chip');
 });
 
 test('client lifecycle: double apply works cleanly without duplicating uncleaned state', async () => {
@@ -141,7 +143,7 @@ test('client lifecycle: double apply works cleanly without duplicating uncleaned
   const session1 = createMockCtx();
   assert.doesNotThrow(() => mod.apply(session1.ctx));
   assert.equal(activeLocaleRegistrations, 1);
-  assert.equal(activeSlotInjections, 2);
+  assert.equal(activeSlotInjections, 3);
 
   // Reload / second apply: first session disposed, second applied
   session1.dispose();
@@ -151,7 +153,7 @@ test('client lifecycle: double apply works cleanly without duplicating uncleaned
   const session2 = createMockCtx();
   assert.doesNotThrow(() => mod.apply(session2.ctx));
   assert.equal(activeLocaleRegistrations, 1);
-  assert.equal(activeSlotInjections, 2);
+  assert.equal(activeSlotInjections, 3);
 
   session2.dispose();
   assert.equal(activeLocaleRegistrations, 0);
