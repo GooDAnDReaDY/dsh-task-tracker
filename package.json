@@ -1,6 +1,6 @@
 {
   "name": "@goodandready-private/dsh-task-tracker",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Автономный встроенный Todo-инбокс для Ди: локальное JSON-хранилище tasks.json, тулы todo_add / todo_list / todo_done, REST API webServer и полноэкранный интерфейс TasksScreen.",
   "type": "module",
   "main": "lib/index.js",
