@@ -2,6 +2,12 @@
 
 All notable changes to `@goodandready-private/dsh-task-tracker` will be documented in this file.
 
+## [0.2.3] - 2026-09-19
+
+### Fixed
+- **Updater CLI discovery infinite loop**: исправлен критический баг в findDshCliEntry (lib/updater.js) — добавлен переход directory = parent, предотвращающий бесконечный цикл поиска package.json и 100% загрузку CPU при вызове /dsh-task-tracker/api/updater (#31).
+- **Unit test**: добавлен юнит-тест гарантированного быстрого завершения findDshCliEntry при отсутствии package.json в родительских каталогах.
+
 ## [0.2.2] - 2026-09-18
 
 ### Added
