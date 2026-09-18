@@ -1,7 +1,10 @@
 # @goodandready-private/dsh-task-tracker
 
-Плагин DeepSeek Harness с инструментами todo_add, todo_list и todo_done для
-локального task-tracker API.
+Автономный встроенный Todo-инбокс для Ди (Ди + DeepSeek Harness):
+- **Хранилище:** локальное JSON-хранилище `tasks.json` со стандартной библиотекой `node:fs` и атомарной записью (`.tmp` + `renameSync`), zero external dependencies (Вариант Б).
+- **Инструменты агента:** `todo_add`, `todo_list`, `todo_done` работают напрямую с локальным хранилищем без необходимости внешних микросервисов, Basic Auth или сетевых портов.
+- **Интерфейс оператора:** полноэкранный рабочий экран `TasksScreen` в центральной колонке поверх чата, кнопка-чип в шапке сессии (`conversation.session.header.utilities`) с индикатором активных задач и пункт в боковой панели.
+- **REST API:** эндпоинты `/dsh-task-tracker/api/tasks[...]` на базе `ctx.webServer.register`.
 
 ## Установка
 
@@ -11,13 +14,13 @@
 pnpm add @goodandready-private/dsh-task-tracker
 ```
 
-Плагин host-only: клиентского loader-файла нет. Bundle patch регистрирует
-host id dsh-task-tracker с private package name.
+## Changed in v0.1.5
 
-Для Basic Auth передайте pass, задайте AUTH_PASS или укажите passFile с
-секретом. Пароль не хранится в исходниках, не логируется и не имеет fallback.
-
-Параметр base задаёт URL API, а maxResults не используется этим плагином.
+- Standalone Architecture (Вариант Б): перенос таск-трекера полностью внутрь DSH без внешнего Go-микросервиса и порта 8182 (#13).
+- Storage: легковесное хранилище `tasks.json` с атомарной записью (`node:fs`) и автоматическим импортом прежних задач из SQLite при первом старте.
+- UI: полноэкранный экран управления задачами `TasksScreen` с фильтрами, поиском, инлайн-созданием и управлением статусами.
+- Navigation: кнопка со счетчиком задач в шапке сессии (`conversation.session.header.utilities`) и кнопка в боковой панели.
+- REST API: эндпоинты `/dsh-task-tracker/api/tasks` (GET, POST, PATCH, DELETE, stats).
 
 ## Changed in v0.1.4
 
@@ -25,12 +28,8 @@ host id dsh-task-tracker с private package name.
 - Locale: register only canonical English dictionary; delegate Russian translations to `dsh-russian-lang` (#9).
 - Packaging: clean `package.json.files` (remove duplicate `lib/` and untracked `test/`), untrack internal `AGENTS.md` (#8).
 
-## Changed in v0.1.3
-
-- Fix package exports `./client` for dsh.client settings card (boot compatibility).
-
 ## Языковое поведение / Locale behavior
 
-- **Клиентская карточка:** регистрирует только канонический английский словарь (`en`) для пространства `dsh-task-tracker`. Встроенный словарь `ru` не поставляется во избежание коллизии `already has locale "ru"` в веб-профиле DSH.
-- **Русская локализация:** карточка переводится централизованным плагином `dsh-russian-lang` (`48-task-tracker.json`).
+- **Клиентский интерфейс:** регистрирует только канонический английский словарь (`en`) для пространства `dsh-task-tracker`. Встроенный словарь `ru` не поставляется во избежание коллизии `already has locale "ru"` в веб-профиле DSH.
+- **Русская локализация:** интерфейс переводится централизованным плагином `dsh-russian-lang`.
 - **Инструменты агента:** описания и параметры инструментов в `lib/index.js` (`todo_add`, `todo_list`, `todo_done`) выполнены на русском языке как целевые системные инструкции для LLM-агента Ди.
