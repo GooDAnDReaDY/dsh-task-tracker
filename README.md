@@ -14,6 +14,14 @@
 pnpm add @goodandready-private/dsh-task-tracker
 ```
 
+## Changed in v0.1.8
+
+- Folder Swimlanes & Drag & Drop: добавлена поддержка организации задач по папкам/горизонтальным областям (`folders`) с drag & drop переносом между ними (#20).
+- Navigation & Return to Chat: добавлена стандартная кнопка возврата в чат («To the chat») в шапке экрана `TasksScreen` с иконкой и плавной анимацией возврата (#20).
+- Task Creation & Reliability: переработана панель создания задач (замена `<form>` на `div.tt-create-bar` с селектором целевой папки, явным выбором приоритета и обработчиком клика), добавлено видимое отображение ошибок валидации и сети (#20).
+- Storage & API: схема `tasks.json` обновлена до формата v2 с поддержкой списка `folders`, автомиграцией v1, и новыми эндпоинтами `GET /folders`, `POST /folders`, фильтрацией `GET /tasks?folder=...` (#20).
+- Agent Tools: инструмент `todo_add` расширен опциональным параметром `folder`, `todo_list` поддерживает фильтрацию по папкам (#20).
+
 ## Changed in v0.1.7
 
 - Packaging: сделан надежный разбор `npm pack --json` в тестах под npm 12/10/11 (#15).

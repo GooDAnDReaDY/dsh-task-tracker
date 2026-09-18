@@ -126,3 +126,37 @@ test('storage: imports tasks from legacy sqlite DB if tasks.json does not exist'
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('storage: folders support (creation, listing, moving task between folders)', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'dsh-tt-folders-'));
+  const file = join(dir, 'tasks.json');
+
+  try {
+    const store = new TaskStore({ filePath: file, legacyDbPath: null });
+    assert.deepEqual(store.listFolders(), ['Inbox']);
+
+    store.addFolder('Work');
+    store.addFolder('Personal');
+    assert.ok(store.listFolders().includes('Work'));
+    assert.ok(store.listFolders().includes('Personal'));
+
+    const t1 = store.create({ title: 'Default task' });
+    assert.equal(t1.folder, 'Inbox');
+
+    const t2 = store.create({ title: 'Work task', folder: 'Work' });
+    assert.equal(t2.folder, 'Work');
+
+    // Filter by folder
+    const workTasks = store.list({ folder: 'Work' });
+    assert.equal(workTasks.length, 1);
+    assert.equal(workTasks[0].id, t2.id);
+
+    // Move task between folders (e.g. via drag & drop)
+    const moved = store.update(t2.id, { folder: 'Personal' });
+    assert.equal(moved.folder, 'Personal');
+    assert.equal(store.list({ folder: 'Work' }).length, 0);
+    assert.equal(store.list({ folder: 'Personal' }).length, 1);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

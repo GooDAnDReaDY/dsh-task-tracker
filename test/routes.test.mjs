@@ -161,3 +161,43 @@ test('routes: rejects cross-origin and invalid requests', async () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('routes: folders API endpoints and folder field support', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'dsh-routes-folders-'));
+  const file = join(dir, 'tasks.json');
+
+  try {
+    const store = new TaskStore({ filePath: file, legacyDbPath: null });
+
+    // 1. GET /tasks/folders
+    const req1 = createMockReq('GET', '/dsh-task-tracker/api/tasks/folders');
+    const res1 = createMockRes();
+    await handleTasksApi(req1, res1, store);
+    assert.equal(res1.statusCode, 200);
+    assert.deepEqual(res1.json(), ['Inbox']);
+
+    // 2. POST /tasks/folders
+    const req2 = createMockReq('POST', '/dsh-task-tracker/api/tasks/folders', { name: 'Bugs' });
+    const res2 = createMockRes();
+    await handleTasksApi(req2, res2, store);
+    assert.equal(res2.statusCode, 201);
+    assert.ok(res2.json().folders.includes('Bugs'));
+
+    // 3. POST /tasks with folder
+    const req3 = createMockReq('POST', '/dsh-task-tracker/api/tasks', { title: 'Fix bug 42', folder: 'Bugs' });
+    const res3 = createMockRes();
+    await handleTasksApi(req3, res3, store);
+    assert.equal(res3.statusCode, 201);
+    const created = res3.json();
+    assert.equal(created.folder, 'Bugs');
+
+    // 4. PATCH task to change folder
+    const req4 = createMockReq('PATCH', `/dsh-task-tracker/api/tasks/${created.id}`, { folder: 'Inbox' });
+    const res4 = createMockRes();
+    await handleTasksApi(req4, res4, store);
+    assert.equal(res4.statusCode, 200);
+    assert.equal(res4.json().folder, 'Inbox');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
