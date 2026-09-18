@@ -2,6 +2,16 @@
 
 All notable changes to `@goodandready-private/dsh-task-tracker` will be documented in this file.
 
+## [0.2.2] - 2026-09-18
+
+### Added
+- **Quick-add bar and Prominent Add Task buttons**: добавлен ряд быстрого создания задач (Enter для добавления) и заметные кнопки «+ Add Task» в шапке и в пустом состоянии папки (#31).
+- **Auto-updater**: встроен автоматический серверный апдейтер плагина lib/updater.js с поддержкой токенов GitHub Packages из ~/.npmrc и секция обновления в карточке настроек плагина (/dsh-task-tracker/api/updater) (#31).
+- **Bilingual dictionaries (EN & ZH)**: полные канонические словари English (en) и Chinese (zh), регистрация в ctx.locale.register и нулевое содержание захардкоженного русского текста в коде клиента (#31).
+
+### Fixed
+- **Inbox tasks visibility**: исправлена фильтрация задач в папке Inbox — задачи с дефолтной или пустой папкой корректно сопоставляются с Inbox, счетчики папок синхронизированы (#31).
+
 ## [0.2.0] - 2026-09-18
 
 ### Added

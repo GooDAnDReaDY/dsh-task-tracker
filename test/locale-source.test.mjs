@@ -6,16 +6,18 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
-test('client registers only canonical English locale', async () => {
+test('client registers canonical English and Chinese locales with zero bundled Russian text', async () => {
   const clientSource = await readFile(resolve(root, 'lib/client.js'), 'utf8');
 
-  // Must register { en: ... }
+  // Must register { en: ..., zh: ... }
   assert.match(clientSource, /ctx\.locale\.register\(NS,\s*\{\s*en:\s*\{/);
+  assert.match(clientSource, /\bzh:\s*\{/);
 
-  // Must not contain bundled ru dictionary in lib/client.js
+  // Must not contain bundled ru dictionary or hardcoded Russian text in lib/client.js
   assert.doesNotMatch(clientSource, /\bru:\s*\{/);
   assert.doesNotMatch(clientSource, /Загрузка…/);
   assert.doesNotMatch(clientSource, /Токен доступа/);
+  assert.doesNotMatch(clientSource, /[\u0400-\u04FF]/);
 });
 
 test('client dictionary keys match expected keys for external dsh-russian-lang translation', async () => {

@@ -84,4 +84,11 @@ test('client: registers all required slots and locale keys for TasksScreen and c
   assert.equal(enDict['tasks.empty'], 'No tasks found');
   assert.equal(enDict['tasks.delete'], 'Delete task');
   assert.equal(enDict['tasks.close'], 'Close');
+
+  const zhDict = registeredLocales['dsh-task-tracker']?.zh;
+  assert.ok(zhDict, 'zh locale registered');
+  assert.equal(zhDict['tasks.title'], '任务');
+  assert.equal(zhDict['tasks.all'], '全部');
+  assert.equal(zhDict['tasks.active'], '进行中');
+  assert.equal(zhDict['tasks.completed'], '已完成');
 });
