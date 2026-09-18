@@ -19,6 +19,12 @@ host id dsh-task-tracker с private package name.
 
 Параметр base задаёт URL API, а maxResults не используется этим плагином.
 
+## Changed in v0.1.4
+
+- Lifecycle: wrap locale and slot registrations in `ctx.effect` with cleanups (#7).
+- Locale: register only canonical English dictionary; delegate Russian translations to `dsh-russian-lang` (#9).
+- Packaging: clean `package.json.files` (remove duplicate `lib/` and untracked `test/`), untrack internal `AGENTS.md` (#8).
+
 ## Changed in v0.1.3
 
 - Fix package exports `./client` for dsh.client settings card (boot compatibility).
