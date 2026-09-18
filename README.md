@@ -14,6 +14,17 @@
 pnpm add @goodandready-private/dsh-task-tracker
 ```
 
+## Changed in v0.1.7
+
+- Packaging: сделан надежный разбор `npm pack --json` в тестах под npm 12/10/11 (#15).
+- Diagnostics & Error Handling: устранены пустые `catch` в `lib/client.js`, добавлено логирование сбоя поллинга статистики и явная пометка намерений `/* bestEffort: cleanup */` (#16).
+- Theming & Contrast: шесть хардкод-цветов переведены на дизайн-токены ядра (`--dsw-alias-*`) и `color-mix()` для адаптации к темной и светлой темам, добавлен тест-страж `test/theme.test.mjs` (#17).
+- Refactoring & Settings: удален неиспользуемый `getConfig()`, поля внешнего сервиса помечены `@deprecated`, карточка настроек приведена в соответствие с локальным хранилищем, актуализировано описание инструмента `todo_add` (#18).
+
+## Changed in v0.1.6
+
+- Host Service Inject: добавлены `webServer` и `settings` в явный список зависимостей плагина (`inject`) для надежной регистрации API-маршрутов (#13).
+
 ## Changed in v0.1.5
 
 - Standalone Architecture (Вариант Б): перенос таск-трекера полностью внутрь DSH без внешнего Go-микросервиса и порта 8182 (#13).

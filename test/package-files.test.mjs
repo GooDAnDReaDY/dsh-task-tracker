@@ -35,7 +35,8 @@ test('package.json files array is clean, deduplicated and excludes tests/interna
 
 test('npm pack --dry-run includes only runtime product files, no test/AGENTS artifacts', async () => {
   const { stdout } = await execFileAsync('npm', ['pack', '--dry-run', '--json'], { cwd: root });
-  const [packInfo] = JSON.parse(stdout);
+  const parsed = JSON.parse(stdout);
+  const packInfo = Array.isArray(parsed) ? parsed[0] : (parsed && parsed.files ? parsed : Object.values(parsed)[0]);
 
   assert.ok(packInfo && Array.isArray(packInfo.files), 'npm pack output must list files');
 
