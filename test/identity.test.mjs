@@ -32,7 +32,10 @@ test('client ModuleLoader id matches package and registers settings card', async
   assert.equal(pkg.name, '@goodandready-private/dsh-task-tracker');
   assert.match(client, /id: '@goodandready-private\/dsh-task-tracker'/);
   assert.match(client, /settings\.plugin\.item/);
-  assert.match(client, /key: NS/);
+  // Both seats are declared: the Plugins page row seat first, the legacy card after.
+  assert.match(client, /plugins\.row\.config/);
+  assert.match(client, /const ROW_CONFIG_KEY = PKG \+ '#' \+ ROW_ID/);
+  assert.match(client, /const ROW_ID = 'dsh-task-tracker'/);
   assert.match(client, /Never echo secret pass/);
   assert.match(host, /settings\.register\(NS/);
   assert.match(host, /role\('secret'\)/);
