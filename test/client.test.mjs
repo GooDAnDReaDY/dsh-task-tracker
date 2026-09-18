@@ -68,6 +68,7 @@ test('client: registers all required slots and locale keys for TasksScreen and c
 
   // Assert slots
   assert.ok(injectedSlots.includes('settings.plugin.item'), 'settings card slot injected');
+  assert.ok(!injectedSlots.includes('settings.section'), 'settings.section must not be injected (plugin.item only)');
   assert.ok(injectedSlots.includes('conversation.session.header.utilities'), 'header chip slot injected');
 
   // Assert locale keys for Tasks screen

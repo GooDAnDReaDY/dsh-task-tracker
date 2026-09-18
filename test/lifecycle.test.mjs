@@ -77,7 +77,7 @@ test('client lifecycle: registers locale and slot in ctx.effect with cleanups', 
   const effectNames = effects.map((e) => e.name);
   assert.ok(effectNames.includes('dsh-task-tracker: словари'), 'locale effect registered');
   assert.ok(effectNames.includes('dsh-task-tracker: карточка'), 'card slot effect registered');
-  assert.ok(effectNames.includes('dsh-task-tracker: fallback section'), 'fallback section effect registered');
+  assert.ok(!effectNames.includes('dsh-task-tracker: fallback section'), 'fallback section must not be registered');
 
   // Verify initial registration
   assert.equal(registeredLocales.length, 1);
@@ -85,6 +85,7 @@ test('client lifecycle: registers locale and slot in ctx.effect with cleanups', 
   assert.ok(registeredLocales[0].dict.en);
   assert.equal(registeredLocales[0].dict.ru, undefined, 'ru locale must not be bundled');
   assert.ok(injectedSlots.includes('settings.plugin.item'));
+  assert.ok(!injectedSlots.includes('settings.section'), 'settings.section must not be injected');
   assert.ok(injectedSlots.includes('conversation.session.header.utilities'));
   assert.ok(effectNames.includes('dsh-task-tracker: chip'));
   assert.ok(effectNames.includes('dsh-task-tracker: overlay'));
