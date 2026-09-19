@@ -2,6 +2,16 @@
 
 All notable changes to `@goodandready-private/dsh-task-tracker` will be documented in this file.
 
+## [0.2.5] - 2026-09-19
+
+### Fixed
+- **Settings reachable again on the plugin's own page**: the current DSH core
+  (0.1.6-alpha.2) renders a plugin's configuration page only for entries registered
+  in the plugin-list seat `plugins.item`. That seat takes an `id` and a static label
+  instead of a `key`, so it is mounted separately from the keyed helper; the row seat
+  and the legacy card stay as fallbacks. Both lifecycle tests now expect four slot
+  injections.
+
 ## [0.2.4] - 2026-09-19
 
 ### Fixed
