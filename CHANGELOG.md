@@ -1,6 +1,31 @@
 # Changelog
 
+## [0.2.7] - 2026-09-24
+
+### Security
+- **Request Authorization (Fail-Closed)**: `isAllowedRequest` отклоняет мутирующие запросы (POST, PATCH, DELETE, PUT) без заголовков `Origin` и `Sec-Fetch-Site` со статусом 403 Forbidden, если соединение не является локальным (loopback) (#43).
+- **Host Environment Sanitization**: удален захардкоженный fallback-путь `/mnt/external/...` в `lib/storage.js`; значение по умолчанию для `legacyDbPath` изменено на `null`. Расширен `test/identity.test.mjs` для проверки всех файлов `lib/*.js` (#41, #47).
+
+### Fixed
+- **Safe Task ID Decoding**: добавлена безопасная обработка URI-кодированных идентификаторов задач (`safeDecode`) в маршрутах GET, PATCH и DELETE. Некорректно закодированные последовательности URL возвращают 400 Bad Request вместо неперехваченного исключения 500 (#40).
+- **Reactive TasksScreen Refresh**: `TasksScreen` подписан на открытие панели — задачи загружаются актуальными сразу при открытии (#37).
+- **Manual Refresh Button**: добавлена кнопка «Refresh» в шапку экрана задач со спиннером и поддержкой локализации (EN/ZH) (#37).
+- **Realtime Component Sync**: внедрено событие `dsh-task-tracker:data-changed` — изменения задач в `TasksScreen` мгновенно обновляют счетчик в `TaskChip` без ожидания 10-секундного таймера поллинга (#37).
+
+### Performance
+- **DOM MutationObserver Optimization**: наблюдатели мутаций в `mountTasksScreen` и `mountSidebarEntry` отключаются сразу после успешного монтажа элементов, устраняя холостую нагрузку на CPU при стриминге токенов модели (#38).
+- **Storage mtime Caching**: оптимизирован метод `load()` и `ensureFresh()` в `TaskStore` — кэширование `lastMtime` корректно работает даже при 0 задач, устраняя повторное чтение и парсинг с диска при регулярном поллинге статистики (#39).
+
+### Refactoring & Tech Debt
+- **Clean Config Schema**: удалены устаревшие неиспользуемые поля `base`, `user`, `pass`, `passFile` из схемы `Config`. Устранены избыточные ветки `ctx.inject` в `apply()`, опираясь на явный экспорт `inject` (#42).
+- **GitHub Mirror Workflow**: подтвержден канонический скрипт санитизированной публикации в GitHub-зеркало `scripts/publish-github.sh` (#35).
+
 All notable changes to `@goodandready-private/dsh-task-tracker` will be documented in this file.
+
+## 0.2.6
+
+### Fixed
+- Settings no longer wait on the removed settingsScope service. The client uses configForms (#44).
 
 ## [0.2.5] - 2026-09-19
 

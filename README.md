@@ -1,93 +1,63 @@
 # @goodandready-private/dsh-task-tracker
 
-Автономный встроенный Todo-инбокс и менеджер задач для Ди (DeepSeek Harness):
-- **Хранилище:** локальный JSON-файл `tasks.json` со стандартной библиотекой `node:fs` и атомарной записью (`.tmp` + `renameSync`), zero external dependencies.
-- **Интерфейс оператора:** полноэкранный экран `TasksScreen` поверх диалога, нижняя полка папок с перетаскиванием задач, детальные модальные окна и быстрый переход в чат с агентом.
-- **Интеграция с агентом:** вызов сессии агента по кнопке «Начать чат с агентом» с автоматической передачей контекста задачи в композер, а также штатные тулы агента `todo_add`, `todo_list`, `todo_done`.
-- **REST API:** полнофункциональные маршруты `/dsh-task-tracker/api/tasks[...]` на базе `ctx.webServer.register`.
+Built-in todo inbox and task manager for DeepSeek Harness.
 
-## Возможности
+- **Storage:** a local `tasks.json` file, written atomically with `node:fs` (`.tmp` + `renameSync`). No extra dependencies.
+- **Operator UI:** a full-screen `TasksScreen` over the conversation, a folder shelf with drag-and-drop, task modals, and a jump into an agent chat.
+- **Agent integration:** a "Start chat with agent" action that puts the task context into the composer, plus the tools `todo_add`, `todo_list`, and `todo_done`.
+- **REST API:** `/dsh-task-tracker/api/tasks[...]`, registered through `ctx.webServer.register`.
 
-1. **Нижняя панель папок (Folder Shelf):**
-   - Все папки отображаются внизу в виде фиксированных плашек (`140px`).
-   - Значок папки настраивается (встроенная палитра эмодзи).
-   - Длинные названия папок переносятся на две строки.
-   - При росте количества папок они компактно выстраиваются в 2 ряда с прокруткой.
-   - Поддерживается drag-and-drop: строку задачи можно перетащить прямо на плашку папки.
+## What you can do
 
-2. **Компактный список задач в папке:**
-   - Отображает только заголовки задач в чистых аккуратных строках с индикатором выполнения и приоритета.
-   - При большом количестве задач появляется вертикальная полоса прокрутки.
+1. **Folder shelf.** Folders sit in a fixed strip at the bottom. Each folder has an icon, long names wrap, and a task row can be dropped onto a folder.
+2. **Compact list.** A folder shows task titles with a completion mark and a priority. Long lists scroll.
+3. **Task modal.** Click a task to edit the title, description, author, folder, and priority (normal / low / medium / high). **Start chat with agent** opens a conversation for that task.
+4. **Create.** **+ Create** adds a task. The create form can also create the task and open the chat immediately.
+5. **Filters & Refresh.** All / open / done, search over title and description, and a manual Refresh button with real-time reactive sync.
+6. **Entry points.** An unfinished-count chip in the session header, a sidebar button, and a back-to-chat control.
 
-3. **Детальное модальное окно задачи:**
-   - Открывается по клику на любую задачу.
-   - Позволяет просматривать и редактировать:
-     - Заголовок задачи.
-     - Подробное многострочное описание.
-     - Автора задачи (`User`, агент или имя пользователя).
-     - Дату и время создания (`createdAt`).
-     - Папку размещения и приоритет (Обычный / Низкий / Средний / Высокий).
-   - Содержит кнопку **«Начать чат с агентом»** для немедленного решения задачи в диалоге.
+## Install
 
-4. **Создание задач и старт чата:**
-   - Кнопка **+ Создать** открывает окно добавления задачи.
-   - Внизу формы создания доступны кнопки «+ Создать» и **«Начать чат с агентом»** (создает задачу и сразу открывает чат).
-
-5. **Верхние фильтры:**
-   - Переключение между режимами: **Все** / **Не завершенные** / **Завершенные**.
-   - Полнотекстовый поиск по названию и описанию.
-
-6. **Быстрый доступ:**
-   - Кнопка-чип со счетчиком невыполненных задач в шапке сессии (`conversation.session.header.utilities`).
-   - Кнопка в боковой панели (`Tasks`).
-   - Кнопка возврата в чат («← В чат») в шапке таск-трекера.
-
-## Установка
-
-Пакет публикуется в приватный GitHub Packages registry:
+The package is published to the private GitHub Packages registry:
 
 ```sh
 pnpm add @goodandready-private/dsh-task-tracker
 ```
 
-## Инструменты агента
+## Agent tools
 
-Плагин регистрирует 3 инструмента в `ctx.tools`:
+Registered on `ctx.tools`:
 
-- `todo_add`: создание новой задачи в инбоксе или указанной папке.
-  - Параметры: `title` (строка, обязательно), `description` (строка, опционально), `priority` (0-3), `folder` (название папки, по умолчанию `Inbox`), `author` (автор).
-- `todo_list`: получение списка задач.
-  - Параметры: `status` (`"pending" | "done" | "all"`), `folder` (фильтр по папке), `limit` (максимум записей).
-- `todo_done`: завершение задачи по ее ID.
-  - Параметры: `id` (строка, обязательно).
+- `todo_add` — create a task. `title` is required. Optional: `description`, `priority` (0-3), `folder` (default `Inbox`), `author`.
+- `todo_list` — list tasks. Optional: `status` (`pending`, `done`, `all`), `folder`, `limit`.
+- `todo_done` — complete a task. `id` is required.
 
 ## REST API
 
-Все эндпоинты доступны по префиксу `/dsh-task-tracker/api`:
+Prefix: `/dsh-task-tracker/api`.
 
-- `GET /tasks`: список всех задач (поддерживает `?status=pending|done|all` и `?folder=...`).
-- `POST /tasks`: создание задачи `{ title, description, priority, folder, author }`.
-- `GET /tasks/stats`: статистика `{ total, pending, done }`.
-- `GET /tasks/folders`: список имен папок (`?details=1` возвращает объекты `{ name, icon, count }`).
-- `POST /tasks/folders`: создание папки `{ name, icon }`.
-- `PATCH /tasks/folders/:name`: обновление папки (смена иконки).
-- `DELETE /tasks/folders/:name`: удаление папки (задачи переносятся в `Inbox`).
-- `PATCH /tasks/:id`: обновление полей задачи (`title`, `description`, `completed`, `priority`, `folder`).
-- `DELETE /tasks/:id`: удаление задачи.
+- `GET /tasks` — list tasks (`status`, `folder`).
+- `POST /tasks` — create `{ title, description, priority, folder, author }`.
+- `GET /tasks/stats` — `{ total, pending, done }`.
+- `GET /tasks/folders` — folder names (`details=1` returns `{ name, icon, count }`).
+- `POST /tasks/folders` — create `{ name, icon }`.
+- `PATCH /tasks/folders/:name` — change the icon.
+- `DELETE /tasks/folders/:name` — delete the folder; its tasks move to `Inbox`.
+- `PATCH /tasks/:id` — update `title`, `description`, `completed`, `priority`, `folder`.
+- `DELETE /tasks/:id` — delete a task.
 
-## Настройки плагина
+## Settings
 
-В «Settings → Плагины → Task Tracker»:
-- **Custom tasks JSON storage path (`filePath`):** кастомный путь к файлу хранилища задач (по умолчанию `~/.dsh/task-tracker/tasks.json`).
-- Автоматически создает директорию и файл при первом обращении.
-- При первом запуске автоматически импортирует существующие задачи из прежней SQLite базы данных (если есть).
+In Settings, under the Task Tracker plugin:
 
-## Языковое поведение / Locale behavior
+- **Custom tasks JSON storage path (`filePath`):** where `tasks.json` lives. Default is the profile directory `task-tracker/tasks.json`.
+- The directory and file are created on first use.
+- On first start, existing tasks are imported from a previous SQLite database when one is present.
 
-- **Клиентский интерфейс:** регистрирует только канонический английский словарь (`en`) для пространства `dsh-task-tracker`. Встроенный словарь `ru` не поставляется во избежание коллизий в веб-профиле DSH.
-- **Русская локализация:** интерфейс переводится централизованным плагином `dsh-russian-lang`.
-- **Инструменты агента:** системные описания инструментов в `lib/index.js` выполнены на русском языке для корректной работы LLM-модели Ди.
+## Locale behavior
 
-## Лицензия
+The client ships the canonical English catalog for `dsh-task-tracker`. Russian UI strings are provided by the separate `dsh-russian-lang` plugin.
+
+## License
 
 MIT
