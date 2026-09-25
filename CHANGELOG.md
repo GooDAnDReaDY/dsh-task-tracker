@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.8] - 2026-09-25
+
+### Fixed
+- **Storage Quarantine on Parse Failure**: `TaskStore.load()` safely quarantines corrupted `tasks.json` files to `${filePath}.corrupt.<timestamp>` instead of treating parse errors as an empty task list. Protects against accidental data wiping and refuses mutations via `StorageCorruptedError`. Added safe recovery via `POST /dsh-task-tracker/api/tasks/reset` (#54).
+- **Host Lifecycle Resource Ownership**: host tools (`todo_add`, `todo_list`, `todo_done`), route registrations, and updater registrations in `lib/index.js` are now strictly bound inside `ctx.effect(...)` with cleanup disposers, preventing resource leaks on reload (#55).
+- **Drop Removed Settings Service**: removed obsolete `settings` service from `inject` and `apply` in `lib/index.js`, fixing Cordis proxy accessor crashes during boot in DSH 0.1.7+ (#56).
+
+### Documentation & Security
+- **Runtime Language Contracts**: documented language architecture in `docs/design/DESIGN.md`: canonical English (`en`) and Chinese (`zh`) client dictionaries with zero bundled Russian to avoid runtime collisions with `dsh-russian-lang`; Russian tool descriptions preserved for agent prompt fidelity (#9).
+- **Git Remote Credential Sanitization**: rotated and removed embedded userinfo tokens from `.git/config` and repository configurations (#53).
+
 ## [0.2.7] - 2026-09-24
 
 ### Security
