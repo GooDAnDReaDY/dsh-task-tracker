@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.12] - 2026-11-08
+
+### Fixed & Enhanced
+- **Canonical Design Tokens Alignment**: replaced all 28 non-existent CSS variables `--dsw-alias-color-primary-base`, `--dsw-alias-color-warning`, and `--dsw-alias-color-danger` in `lib/client.js` with canonical DSH tokens `--dsw-alias-button-primary-fill`, `--dsw-alias-state-warn-primary`, and `--dsw-alias-state-error-primary`, removing obsolete hex fallbacks (#69).
+- **Explicit dsh-tools Peer Dependency Range**: narrowed wildcard `*` peer dependency on `@deepseek-ai/dsh-tools` to verified runtime window `^0.1.7-rc.2 || ^0.2.0-rc.1` in `package.json` (#71).
+- **Settings Card Volatile Configuration Support**: marked `filePath` with `.volatile()` in host `Config` schema and implemented safe unwrapping in `lib/index.js` and `lib/storage.js` to ensure volatile box objects resolve safely to default storage paths (#60).
+
 ## [0.2.11] - 2026-11-08
 
 ### Fixed & Cleaned
