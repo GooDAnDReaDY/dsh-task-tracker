@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.9] - 2026-11-08
+
+### Security & Authorization
+- **Reject Sec-Fetch-Site: none on Mutating Routes**: disallowed `Sec-Fetch-Site: none` bypass on state-changing REST routes (POST, PUT, DELETE), preventing unverified origin requests from triggering mutations (#61).
+- **Address Validation & Loopback Reset Restriction**: enforced loopback-only (`127.0.0.1` / `::1`) authorization for destructive `POST .../tasks/reset` operations, and strict validation of remote client IP addresses (#72).
+- **Enforce DSH Connection Authentication for Remote LAN Requests**: wired `getConnection(ctx)?.requestRejection(req)` in REST API middleware so unauthenticated LAN clients receive 401 fail-closed on task tracker endpoints (#73).
+
 ## [0.2.8] - 2026-09-25
 
 ### Fixed
