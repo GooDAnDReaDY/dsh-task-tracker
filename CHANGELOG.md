@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.10] - 2026-11-08
+
+### Fixed & Hardened
+- **tasks.json Record Validation & Defensive Coercion**: added `normalizeTask()` on load to filter non-object records and items lacking valid IDs; safely coerces `title`, `description`, `status`, and `createdAt` to strings to prevent sort and query filter TypeErrors on hand-edited data (#62).
+- **Pagination Bounds & Clamping**: HTTP endpoints validate `?limit` and `?offset` query parameters, rejecting negative or non-numeric values with 400 Bad Request; `store.list()` clamps `limit` so `limit: 0` returns empty results instead of unbounded lists (#63).
+- **Internal Error Path Sanitization**: added `sanitizeErrorMessage()` in route handling to strip absolute filesystem paths from 500 error responses and removed paths from storage exception strings (#64).
+
 ## [0.2.9] - 2026-11-08
 
 ### Security & Authorization
