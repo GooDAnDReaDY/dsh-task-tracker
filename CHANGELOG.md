@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.11] - 2026-11-08
+
+### Fixed & Cleaned
+- **Folder Icon Preservation**: in `addFolder()`, default icon parameter to `undefined` so adding an existing folder without specifying a new icon preserves the existing custom icon (#65).
+- **Supply-Chain Guard Preservation**: removed `--config.minimumReleaseAge=0` flag from updater spawn arguments in `lib/updater.js`, ensuring pnpm release-age quarantine guard remains active (#66, #68).
+- **Dead Code Cleanup**: removed unreferenced `recover()` method from `TaskStore` and cleaned up unused `legacyDbPath` parameter in host `apply()` initialization (#67).
+
 ## [0.2.10] - 2026-11-08
 
 ### Fixed & Hardened
