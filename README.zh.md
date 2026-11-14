@@ -1,4 +1,4 @@
-# @goodandready-private/dsh-task-tracker
+# @goodandready/dsh-task-tracker
 
 DeepSeek Harness 内置的待办收件箱和任务管理器。
 
@@ -18,10 +18,16 @@ DeepSeek Harness 内置的待办收件箱和任务管理器。
 
 ## 安装
 
-包发布在私有 GitHub Packages：
+包已发布到 npm：
 
 ```sh
-pnpm add @goodandready-private/dsh-task-tracker
+npm install @goodandready/dsh-task-tracker
+```
+
+或添加到 DSH 配置文件：
+
+```sh
+dsh plugin add @goodandready/dsh-task-tracker
 ```
 
 ## 代理工具

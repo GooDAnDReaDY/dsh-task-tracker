@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.13] - 2026-11-14
+
+### Changed
+- **Public release identity**: package renamed from the private scope to the canonical `@goodandready/dsh-task-tracker` in `package.json`, `cordis.patch.yml`, the client loader entry, the host updater and all three READMEs.
+- **Public distribution channel**: dropped the GitHub Packages `publishConfig`; the built-in updater now defaults to the public npm registry.
+- **Repository metadata**: `repository`, `homepage` and `bugs` point at the public project instead of the private mirror.
+
+### Added
+- **Mandatory project files**: `AGENTS.md`, `index.md` and `deploy.sh` with the release procedure, plus `.gitattributes` `export-ignore` for internal files.
+- **Quality gates**: `package-lock.json`, ESLint with `no-undef`, and `scripts/pack-check.mjs` (262144-byte file limit, no tarballs in the checkout) wired into `npm run check`.
+
 ## [0.2.12] - 2026-11-08
 
 ### Fixed & Enhanced
@@ -43,7 +54,7 @@
 
 ### Security
 - **Request Authorization (Fail-Closed)**: `isAllowedRequest` отклоняет мутирующие запросы (POST, PATCH, DELETE, PUT) без заголовков `Origin` и `Sec-Fetch-Site` со статусом 403 Forbidden, если соединение не является локальным (loopback) (#43).
-- **Host Environment Sanitization**: удален захардкоженный fallback-путь `/mnt/external/...` в `lib/storage.js`; значение по умолчанию для `legacyDbPath` изменено на `null`. Расширен `test/identity.test.mjs` для проверки всех файлов `lib/*.js` (#41, #47).
+- **Host Environment Sanitization**: удален захардкоженный fallback-путь абсолютный путь окружения в `lib/storage.js`; значение по умолчанию для `legacyDbPath` изменено на `null`. Расширен `test/identity.test.mjs` для проверки всех файлов `lib/*.js` (#41, #47).
 
 ### Fixed
 - **Safe Task ID Decoding**: добавлена безопасная обработка URI-кодированных идентификаторов задач (`safeDecode`) в маршрутах GET, PATCH и DELETE. Некорректно закодированные последовательности URL возвращают 400 Bad Request вместо неперехваченного исключения 500 (#40).
@@ -59,7 +70,7 @@
 - **Clean Config Schema**: удалены устаревшие неиспользуемые поля `base`, `user`, `pass`, `passFile` из схемы `Config`. Устранены избыточные ветки `ctx.inject` в `apply()`, опираясь на явный экспорт `inject` (#42).
 - **GitHub Mirror Workflow**: подтвержден канонический скрипт санитизированной публикации в GitHub-зеркало `scripts/publish-github.sh` (#35).
 
-All notable changes to `@goodandready-private/dsh-task-tracker` will be documented in this file.
+All notable changes to `@goodandready/dsh-task-tracker` will be documented in this file.
 
 ## 0.2.6
 
@@ -83,7 +94,7 @@ All notable changes to `@goodandready-private/dsh-task-tracker` will be document
   слот, который текущее ядро DSH (0.1.6-alpha.2) **не рендерит**, поэтому настройки
   были недостижимы. Теперь поверхность регистрируется первой в посадке строки на
   странице «Плагины» — `plugins.row.config` с ключом
-  `@goodandready-private/dsh-task-tracker#dsh-task-tracker`: у строки плагина
+  `@goodandready/dsh-task-tracker#dsh-task-tracker`: у строки плагина
   появляется контрол «настроить», чья страница — форма настроек (`view: 'page'`,
   раскрытая и без нашей карточки и шапки), плюс однострочник для
   `view: 'summary'`. Прежняя посадка `settings.plugin.item` сохранена фолбэком.

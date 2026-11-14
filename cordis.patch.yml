@@ -2,5 +2,5 @@
 # installed as a profile bundle (package.json declares dsh.bundle.patch).
 - insert:
     - id: dsh-task-tracker
-      name: '@goodandready-private/dsh-task-tracker'
+      name: '@goodandready/dsh-task-tracker'
       config: {}

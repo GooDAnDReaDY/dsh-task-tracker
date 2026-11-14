@@ -1,6 +1,6 @@
 {
-  "name": "@goodandready-private/dsh-task-tracker",
-  "version": "0.2.12",
+  "name": "@goodandready/dsh-task-tracker",
+  "version": "0.2.13",
   "description": "Автономный встроенный Todo-инбокс для Ди: локальное JSON-хранилище tasks.json, тулы todo_add / todo_list / todo_done, REST API webServer и полноэкранный интерфейс TasksScreen.",
   "type": "module",
   "main": "lib/index.js",
@@ -32,23 +32,27 @@
     }
   },
   "license": "MIT",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",
     "@deepseek-ai/schemastery": "^3.18.1",
     "@deepseek-ai/dsh-tools": "^0.1.7-rc.2 || ^0.2.0-rc.1"
   },
   "scripts": {
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs",
+    "lint": "eslint lib scripts",
+    "pack:check": "node scripts/pack-check.mjs",
+    "check": "npm run lint && npm test && npm run pack:check"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/goodandready-private/dsh-task-tracker.git"
+    "url": "git+https://github.com/GooDAnDReaDY/dsh-task-tracker.git"
   },
-  "homepage": "https://github.com/goodandready-private/dsh-task-tracker#readme",
+  "homepage": "https://github.com/GooDAnDReaDY/dsh-task-tracker#readme",
   "bugs": {
-    "url": "https://github.com/goodandready-private/dsh-task-tracker/issues"
+    "url": "https://github.com/GooDAnDReaDY/dsh-task-tracker/issues"
+  },
+  "devDependencies": {
+    "eslint": "^10.4.0",
+    "globals": "^16.0.0"
   }
 }

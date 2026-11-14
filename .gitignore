@@ -6,4 +6,3 @@ node_modules/
 *.key
 *.crt
 credentials.yaml
-AGENTS.md

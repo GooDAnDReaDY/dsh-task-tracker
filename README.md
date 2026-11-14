@@ -1,4 +1,4 @@
-# @goodandready-private/dsh-task-tracker
+# @goodandready/dsh-task-tracker
 
 Built-in todo inbox and task manager for DeepSeek Harness.
 
@@ -18,10 +18,16 @@ Built-in todo inbox and task manager for DeepSeek Harness.
 
 ## Install
 
-The package is published to the private GitHub Packages registry:
+Published on npm:
 
 ```sh
-pnpm add @goodandready-private/dsh-task-tracker
+npm install @goodandready/dsh-task-tracker
+```
+
+Or add it to a DSH profile:
+
+```sh
+dsh plugin add @goodandready/dsh-task-tracker
 ```
 
 ## Agent tools

@@ -1,4 +1,4 @@
-# @goodandready-private/dsh-task-tracker
+# @goodandready/dsh-task-tracker
 
 Автономный встроенный Todo-инбокс и менеджер задач для Ди (DeepSeek Harness):
 - **Хранилище:** локальный JSON-файл `tasks.json` со стандартной библиотекой `node:fs` и атомарной записью (`.tmp` + `renameSync`), zero external dependencies.
@@ -45,10 +45,16 @@
 
 ## Установка
 
-Пакет публикуется в приватный GitHub Packages registry:
+Пакет опубликован в npm:
 
 ```sh
-pnpm add @goodandready-private/dsh-task-tracker
+npm install @goodandready/dsh-task-tracker
+```
+
+Или добавьте его в профиль DSH:
+
+```sh
+dsh plugin add @goodandready/dsh-task-tracker
 ```
 
 ## Инструменты агента
